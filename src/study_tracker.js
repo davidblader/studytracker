@@ -93,7 +93,7 @@ class StudyTrackerHeader extends Component {
 
 class StudyTrackerRow extends Component {
   render() {
-    var visits = this.props.visits.map((v, index) =>
+    var visits = this.props.visitStatuses.map((v, index) =>
       <VisitCell key={index} visitStatus={v} />
     );
     return(
@@ -125,7 +125,7 @@ class StudyTracker extends Component {
 
     render() {
         var dataRows = this.state.rows.map((row) =>
-            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visits={row.visits}/>
+            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visitStatuses={row.visitStatuses}/>
         );
         return (
             <div className="StudyTracker">
@@ -197,7 +197,7 @@ class StudyTracker extends Component {
 var dummyData = [
     {
         "pscid": "PSCID0000",
-        "visits": [
+        "visitStatuses": [
             "deadline-past-data-entry",
             "no-deadline-visit",
             "complete-data-entry",
@@ -208,7 +208,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0001",
-        "visits": [
+        "visitStatuses": [
             "cancelled-data",
             "deadline-past-visit",
             "deadline-past-data-entry",
@@ -219,7 +219,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0010",
-        "visits": [
+        "visitStatuses": [
             "no-deadline-visit",
             "deadline-past-visit",
             "deadline-past-visit",
@@ -230,7 +230,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0011",
-        "visits": [
+        "visitStatuses": [
             "no-deadline-visit",
             "deadline-approaching-data-entry",
             "deadline-approaching-visit",
@@ -241,7 +241,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0100",
-        "visits": [
+        "visitStatuses": [
             "no-deadline-visit",
             "cancelled-data",
             "deadline-approaching-data-entry",
@@ -252,7 +252,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0101",
-        "visits": [
+        "visitStatuses": [
             "cancelled-visit",
             "deadline-approaching-data-entry",
             "deadline-approaching-data-entry",
@@ -263,7 +263,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0110",
-        "visits": [
+        "visitStatuses": [
             "complete-visit",
             "deadline-past-visit",
             "deadline-approaching-data-entry",
@@ -274,7 +274,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0111",
-        "visits": [
+        "visitStatuses": [
             "cancelled-data",
             "deadline-past-visit",
             "deadline-approaching-visit",
@@ -285,7 +285,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1000",
-        "visits": [
+        "visitStatuses": [
             "complete-data-entry",
             "deadline-past-data-entry",
             "cancelled-data",
@@ -296,7 +296,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1001",
-        "visits": [
+        "visitStatuses": [
             "cancelled-visit",
             "cancelled-data",
             "cancelled-data",
@@ -307,7 +307,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1010",
-        "visits": [
+        "visitStatuses": [
             "cancelled-data",
             "deadline-approaching-visit",
             "cancelled-data",
@@ -318,7 +318,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1011",
-        "visits": [
+        "visitStatuses": [
             "deadline-approaching-visit",
             "no-deadline-visit",
             "no-deadline-visit",
@@ -329,7 +329,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1100",
-        "visits": [
+        "visitStatuses": [
             "deadline-past-visit",
             "deadline-approaching-visit",
             "cancelled-visit",
@@ -340,7 +340,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1101",
-        "visits": [
+        "visitStatuses": [
             "deadline-past-visit",
             "complete-data-entry",
             "cancelled-data",
@@ -351,7 +351,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1110",
-        "visits": [
+        "visitStatuses": [
             "deadline-approaching-visit",
             "cancelled-visit",
             "complete-data-entry",
@@ -362,7 +362,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1111",
-        "visits": [
+        "visitStatuses": [
             "complete-visit",
             "complete-visit",
             "complete-visit",
