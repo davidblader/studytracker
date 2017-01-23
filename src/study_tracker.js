@@ -66,7 +66,7 @@ function VisitCell(props) {
     return (
         <td>
             <div data-tip='React-tooltip' className={visitClass} />
-            <ReactToolTip className='tooltip' place="top" type="dark" effect="solid">
+            <ReactToolTip place="top" type="dark" effect="solid">
                 <span>Visit Registration: <br/></span>
                 <span>Data Entry: due in x days<br/></span>
                 <span><i>x/y instruments entered</i></span>
@@ -93,7 +93,7 @@ class StudyTrackerHeader extends Component {
 
 class StudyTrackerRow extends Component {
   render() {
-    var visits = this.props.visitStatuses.map((v, index) =>
+    var visits = this.props.visits.map((v, index) =>
       <VisitCell key={index} visitStatus={v} />
     );
     return(
@@ -112,20 +112,13 @@ class StudyTracker extends Component {
             // Rows should be passed to this class
             // as JSON objects
              rows: dummyData,
-             visitLabels: [
-                 "Screening",
-                 "Clinical",
-                 "Neuropsych",
-                 "MRI",
-                 "Lumbar-Puncture",
-                 "Follow-Up",
-             ]
+             visitLabels: visitLabels
         };
     }
 
     render() {
         var dataRows = this.state.rows.map((row) =>
-            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visitStatuses={row.visitStatuses}/>
+            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visits={row.visits}/>
         );
         return (
             <div className="StudyTracker">
@@ -197,11 +190,24 @@ class StudyTracker extends Component {
 // TODO
 // Restructure this to include more visit information
 // such as due date, number of completed instruments,
-// visit label, etc.
+// visit label, etc. Should be something like:
+// baseJSONObject
+// |__> PSCID: 1
+// |__> Visits: (array of JSON objects)
+// |______> visitLabel:
+// |______> visitStatus:
+// |______> completedInstruments:
+// |______> totalInstruments:
+// |______> dueDate:
+// |
+// ...
+// |__> PSCID: n
+// ...
+
 var dummyData = [
     {
         "pscid": "PSCID0000",
-        "visitStatuses": [
+        "visits": [
             "deadline-past-data-entry",
             "no-deadline-visit",
             "complete-data-entry",
@@ -212,7 +218,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0001",
-        "visitStatuses": [
+        "visits": [
             "cancelled-data",
             "deadline-past-visit",
             "deadline-past-data-entry",
@@ -223,7 +229,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0010",
-        "visitStatuses": [
+        "visits": [
             "no-deadline-visit",
             "deadline-past-visit",
             "deadline-past-visit",
@@ -234,7 +240,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0011",
-        "visitStatuses": [
+        "visits": [
             "no-deadline-visit",
             "deadline-approaching-data-entry",
             "deadline-approaching-visit",
@@ -245,7 +251,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0100",
-        "visitStatuses": [
+        "visits": [
             "no-deadline-visit",
             "cancelled-data",
             "deadline-approaching-data-entry",
@@ -256,7 +262,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0101",
-        "visitStatuses": [
+        "visits": [
             "cancelled-visit",
             "deadline-approaching-data-entry",
             "deadline-approaching-data-entry",
@@ -267,7 +273,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0110",
-        "visitStatuses": [
+        "visits": [
             "complete-visit",
             "deadline-past-visit",
             "deadline-approaching-data-entry",
@@ -278,7 +284,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID0111",
-        "visitStatuses": [
+        "visits": [
             "cancelled-data",
             "deadline-past-visit",
             "deadline-approaching-visit",
@@ -289,7 +295,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1000",
-        "visitStatuses": [
+        "visits": [
             "complete-data-entry",
             "deadline-past-data-entry",
             "cancelled-data",
@@ -300,7 +306,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1001",
-        "visitStatuses": [
+        "visits": [
             "cancelled-visit",
             "cancelled-data",
             "cancelled-data",
@@ -311,7 +317,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1010",
-        "visitStatuses": [
+        "visits": [
             "cancelled-data",
             "deadline-approaching-visit",
             "cancelled-data",
@@ -322,7 +328,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1011",
-        "visitStatuses": [
+        "visits": [
             "deadline-approaching-visit",
             "no-deadline-visit",
             "no-deadline-visit",
@@ -333,7 +339,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1100",
-        "visitStatuses": [
+        "visits": [
             "deadline-past-visit",
             "deadline-approaching-visit",
             "cancelled-visit",
@@ -344,7 +350,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1101",
-        "visitStatuses": [
+        "visits": [
             "deadline-past-visit",
             "complete-data-entry",
             "cancelled-data",
@@ -355,7 +361,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1110",
-        "visitStatuses": [
+        "visits": [
             "deadline-approaching-visit",
             "cancelled-visit",
             "complete-data-entry",
@@ -366,7 +372,7 @@ var dummyData = [
     },
     {
         "pscid": "PSCID1111",
-        "visitStatuses": [
+        "visits": [
             "complete-visit",
             "complete-visit",
             "complete-visit",
@@ -374,6 +380,16 @@ var dummyData = [
             "deadline-past-data-entry",
             "deadline-approaching-data-entry"
         ]
-    }];
+    }
+];
+
+var visitLabels = [
+    "Screening",
+    "Clinical",
+    "Neuropsych",
+    "MRI",
+    "Lumbar-Puncture",
+    "Follow-Up",
+];
 
 export default StudyTracker;
