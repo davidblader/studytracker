@@ -1,6 +1,188 @@
 import React, { Component } from 'react';
 import './study_tracker.css';
 
+function SiteFilter(props) {
+    return (
+        <td>
+            <select>
+                <option value="site">Site</option>
+            </select>
+        </td>
+    );
+}
+
+function TeamFilter(props) {
+    return (
+        <td>
+            <select>
+                <option value="team">Team</option>
+            </select>
+        </td>
+    );
+}
+
+function CohortFilter(props) {
+    return (
+        <td>
+            <select>
+                <option value="cohort">Cohort</option>
+            </select>
+        </td>
+    );
+}
+
+class Filters extends Component {
+    render() {
+        return(
+            <table className="Filters">
+                <tbody>
+                    <tr>
+                        <SiteFilter />
+                        <TeamFilter />
+                        <CohortFilter />
+                    </tr>
+                </tbody>
+            </table>
+        );
+    }
+}
+
+
+// Change to class if there is to be more than just
+// rendering
+function PSCIDCell(props) {
+    return (
+        <td>{props.pscid}</td>
+    );
+}
+
+function VisitCell(props) {
+    var visitClass = "circle " + props.visitStatus;
+    return (
+        <td>
+            <div className={visitClass}/>
+        </td>
+    );
+}
+
+class StudyTrackerHeader extends Component {
+  render() {
+    var visitLabelHeaders = this.props.visitLabels.map((vl) =>
+      <th key={vl}>{vl}</th>
+    );
+    return (
+      <thead className="StudyTrackerHeader">
+      <tr>
+          <th></th>
+          {visitLabelHeaders}
+      </tr>
+      </thead>
+    );
+  }
+}
+
+class StudyTrackerRow extends Component {
+  render() {
+    var visits = this.props.visits.map((v, index) =>
+      <VisitCell key={index} visitStatus={v} />
+    );
+    return(
+      <tr className="StudyTrackerRow">
+        <PSCIDCell pscid={this.props.pscid}/>
+        {visits}
+      </tr>
+    );
+  }
+}
+
+class StudyTracker extends Component {
+    constructor() {
+        super();
+        this.state = {
+            // Rows should be passed to this class
+            // as JSON objects
+             rows: dummyData,
+             visitLabels: [
+                 "Screening",
+                 "Clinical",
+                 "Neuropsych",
+                 "MRI",
+                 "Lumbar-Puncture",
+                 "Follow-Up",
+             ]
+        };
+    }
+
+    render() {
+        var dataRows = this.state.rows.map((row) =>
+            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visits={row.visits}/>
+        );
+        return (
+            <div className="StudyTracker">
+                <h1>Hello, Study Tracker!</h1>
+                <Filters/>
+                <table>
+                    <StudyTrackerHeader visitLabels={this.state.visitLabels}/>
+                    <tbody>
+                    {dataRows}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+    componentWillMount() {
+       // this.getRandomRowData = this.getRowData.bind(this);
+       // this.getRandomRowData();
+    }
+    getRandomRowData() {
+        var tempData = [
+            "PSCID0000",
+            "PSCID0001",
+            "PSCID0010",
+            "PSCID0011",
+            "PSCID0100",
+            "PSCID0101",
+            "PSCID0110",
+            "PSCID0111",
+            "PSCID1000",
+            "PSCID1001",
+            "PSCID1010",
+            "PSCID1011",
+            "PSCID1100",
+            "PSCID1101",
+            "PSCID1110",
+            "PSCID1111",
+        ];
+        var rows = [];
+
+        for (var i = 0; i < tempData.length; i++) {
+            var pscVisits = [];
+            var status = [
+                "complete-data-entry",
+                "deadline-approaching-data-entry",
+                "deadline-past-data-entry",
+                "complete-visit",
+                "deadline-approaching-visit",
+                "deadline-past-visit",
+                "no-deadline-visit",
+                "cancelled-visit",
+                "cancelled-data"
+            ];
+          for (var j = 0; j < this.state.visitLabels.length; j++) {
+              pscVisits.push(
+                  status[Math.floor((Math.random() * status.length))]
+              );
+          }
+          var row = {
+              pscid: tempData[i],
+              visits: pscVisits
+          };
+          rows.push(row);
+      }
+      this.setState({rows: rows});
+  }
+}
+
 var dummyData = [
     {
         "pscid": "PSCID0000",
@@ -178,146 +360,5 @@ var dummyData = [
             "deadline-approaching-data-entry"
         ]
     }];
-
-
-class StudyTrackerHeader extends Component {
-  render() {
-    var visitLabelHeaders = this.props.visitLabels.map((vl) =>
-      <th key={vl}>{vl}</th>
-    );
-    return (
-      <thead>
-      <tr>
-          <th></th>
-          {visitLabelHeaders}
-      </tr>
-      </thead>
-    );
-  }
-}
-
-class StudyTrackerRow extends Component {
-  render() {
-    var visits = this.props.visits.map((v, index) =>
-      <VisitCell key={index} visitStatus={v} />
-    );
-    return(
-      <tr>
-        <PSCIDCell pscid={this.props.pscid}/>
-        {visits}
-      </tr>
-    );
-  }
-}
-
-// Change to class if there is to be more than just
-// rendering
-function PSCIDCell(props) {
-  return (
-    <td>{props.pscid}</td>
-  );
-}
-
-function VisitCell(props) {
-    var visitClass = "circle " + props.visitStatus;
-    return (
-        <td>
-            <div className={visitClass}/>
-        </td>
-    );
-}
-
-class StudyTracker extends Component {
-    constructor() {
-        // TODO
-        // Remove hardcoded PSCIDs from constructor
-        // should be taken from somewhere and added to
-        // array dynamically
-        super();
-        this.state = {
-            // Rows should be passed to this class
-            // as JSON objects
-             rows: dummyData,
-             visitLabels: [
-                 "Screening",
-                 "Clinical",
-                 "Neuropsych",
-                 "MRI",
-                 "Lumbar-Puncture",
-                 "Follow-Up",
-             ]
-        };
-    }
-
-    render() {
-        // need to figure out how to build rows, forEach does not do
-        // desired result
-        var dataRows = this.state.rows.map((row) =>
-            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visits={row.visits}/>
-        );
-        return (
-            <div className="StudyTracker">
-                <h1>Hello, Study Tracker!</h1>
-                <table>
-                    <StudyTrackerHeader visitLabels={this.state.visitLabels}/>
-                    <tbody>
-                    {dataRows}
-                    </tbody>
-                </table>
-            </div>
-        );
-    }
-    componentWillMount() {
-       // this.getRandomRowData = this.getRowData.bind(this);
-       // this.getRandomRowData();
-    }
-    getRandomRowData() {
-        var tempData = [
-            "PSCID0000",
-            "PSCID0001",
-            "PSCID0010",
-            "PSCID0011",
-            "PSCID0100",
-            "PSCID0101",
-            "PSCID0110",
-            "PSCID0111",
-            "PSCID1000",
-            "PSCID1001",
-            "PSCID1010",
-            "PSCID1011",
-            "PSCID1100",
-            "PSCID1101",
-            "PSCID1110",
-            "PSCID1111",
-        ];
-        var rows = [];
-
-        for (var i = 0; i < tempData.length; i++) {
-            var pscVisits = [];
-            var status = [
-                "complete-data-entry",
-                "deadline-approaching-data-entry",
-                "deadline-past-data-entry",
-                "complete-visit",
-                "deadline-approaching-visit",
-                "deadline-past-visit",
-                "no-deadline-visit",
-                "cancelled-visit",
-                "cancelled-data"
-            ];
-          for (var j = 0; j < this.state.visitLabels.length; j++) {
-              pscVisits.push(
-                  status[Math.floor((Math.random() * status.length))]
-              );
-          }
-          var row = {
-              pscid: tempData[i],
-              visits: pscVisits
-          };
-          rows.push(row);
-      }
-      //this.setState({rows: rows});
-  }
-}
 
 export default StudyTracker;
