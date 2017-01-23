@@ -7,7 +7,7 @@ body {
 table {
     border-collapse: collapse;
 }
-tr:hover {
+.StudyTrackerRow:hover {
     background-color: #f5f5f5;
 }
 
