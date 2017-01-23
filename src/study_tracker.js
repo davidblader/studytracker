@@ -194,6 +194,10 @@ class StudyTracker extends Component {
   }
 }
 
+// TODO
+// Restructure this to include more visit information
+// such as due date, number of completed instruments,
+// visit label, etc.
 var dummyData = [
     {
         "pscid": "PSCID0000",
