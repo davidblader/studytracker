@@ -32,6 +32,7 @@ function CohortFilter(props) {
 }
 
 class Filters extends Component {
+    // pass sites, teams, and cohort data once available
     render() {
         return(
             <table className="Filters">
@@ -134,6 +135,7 @@ class StudyTracker extends Component {
        // this.getRandomRowData = this.getRowData.bind(this);
        // this.getRandomRowData();
     }
+    // Random data generator
     getRandomRowData() {
         var tempData = [
             "PSCID0000",

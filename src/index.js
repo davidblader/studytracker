@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './study_tracker';
-import './index.css';
+import StudyTracker from './study_tracker';
+import './study_tracker.css';
 
 ReactDOM.render(
-  <App />,
+  <StudyTracker />,
   document.getElementById('root')
 );
