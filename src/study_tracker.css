@@ -32,6 +32,10 @@ th, td, tr {
     padding: 10px;
 }
 
+.tooltip {
+
+}
+
 .circle {
     border-radius: 50%;
     width: 26px;

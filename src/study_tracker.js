@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {findDOMNode} from 'react-dom';
+import ReactToolTip from 'react-tooltip';
 import './study_tracker.css';
 
 function SiteFilter(props) {
@@ -58,10 +60,17 @@ function PSCIDCell(props) {
 }
 
 function VisitCell(props) {
+    // will need to include additional data
+    // for each visit
     var visitClass = "circle " + props.visitStatus;
     return (
         <td>
-            <div className={visitClass}/>
+            <div data-tip='React-tooltip' className={visitClass} />
+            <ReactToolTip className='tooltip' place="top" type="dark" effect="solid">
+                <span>Visit Registration: <br/></span>
+                <span>Data Entry: due in x days<br/></span>
+                <span><i>x/y instruments entered</i></span>
+            </ReactToolTip>
         </td>
     );
 }
