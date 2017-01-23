@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {findDOMNode} from 'react-dom';
+import ReactToolTip from 'react-tooltip';
 import './study_tracker.css';
 
 function SiteFilter(props) {
@@ -58,10 +60,17 @@ function PSCIDCell(props) {
 }
 
 function VisitCell(props) {
+    // will need to include additional data
+    // for each visit
     var visitClass = "circle " + props.visitStatus;
     return (
         <td>
-            <div className={visitClass}/>
+            <div data-tip='React-tooltip' className={visitClass} />
+            <ReactToolTip place="top" type="dark" effect="solid">
+                <span>Visit Registration: <br/></span>
+                <span>Data Entry: due in x days<br/></span>
+                <span><i>x/y instruments entered</i></span>
+            </ReactToolTip>
         </td>
     );
 }
@@ -103,14 +112,7 @@ class StudyTracker extends Component {
             // Rows should be passed to this class
             // as JSON objects
              rows: dummyData,
-             visitLabels: [
-                 "Screening",
-                 "Clinical",
-                 "Neuropsych",
-                 "MRI",
-                 "Lumbar-Puncture",
-                 "Follow-Up",
-             ]
+             visitLabels: visitLabels
         };
     }
 
@@ -188,7 +190,20 @@ class StudyTracker extends Component {
 // TODO
 // Restructure this to include more visit information
 // such as due date, number of completed instruments,
-// visit label, etc.
+// visit label, etc. Should be something like:
+// baseJSONObject
+// |__> PSCID: 1
+// |__> Visits: (array of JSON objects)
+// |______> visitLabel:
+// |______> visitStatus:
+// |______> completedInstruments:
+// |______> totalInstruments:
+// |______> dueDate:
+// |
+// ...
+// |__> PSCID: n
+// ...
+
 var dummyData = [
     {
         "pscid": "PSCID0000",
@@ -365,6 +380,16 @@ var dummyData = [
             "deadline-past-data-entry",
             "deadline-approaching-data-entry"
         ]
-    }];
+    }
+];
+
+var visitLabels = [
+    "Screening",
+    "Clinical",
+    "Neuropsych",
+    "MRI",
+    "Lumbar-Puncture",
+    "Follow-Up",
+];
 
 export default StudyTracker;
