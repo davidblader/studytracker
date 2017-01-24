@@ -62,7 +62,7 @@ function PSCIDCell(props) {
 function VisitCell(props) {
     // will need to include additional data
     // for each visit
-    var visitClass = "circle " + props.visitStatus;
+    var visitClass = "circle " + props.visit.status;
     return (
         <td>
             <div data-tip='React-tooltip' className={visitClass} />
@@ -94,7 +94,7 @@ class StudyTrackerHeader extends Component {
 class StudyTrackerRow extends Component {
   render() {
     var visits = this.props.visits.map((v, index) =>
-      <VisitCell key={index} visitStatus={v} />
+      <VisitCell key={index} visit={v} />
     );
     return(
       <tr className="StudyTrackerRow">
@@ -187,6 +187,10 @@ class StudyTracker extends Component {
   }
 }
 
+function randomDate() {
+    return new Date();
+}
+
 // TODO
 // Restructure this to include more visit information
 // such as due date, number of completed instruments,
@@ -206,179 +210,120 @@ class StudyTracker extends Component {
 
 var dummyData = [
     {
-        "pscid": "PSCID0000",
+        "pscid": "JGH0000",
         "visits": [
-            "deadline-past-data-entry",
-            "no-deadline-visit",
-            "complete-data-entry",
-            "cancelled-data",
-            "cancelled-data",
-            "deadline-approaching-visit"
+            {
+                "status": "deadline-past-data-entry",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 1,
+                "totalInstruments": 22,
+                "visitLabel": "Initial_Assessment_Screening",
+                "cohort": "MCI"
+            },
+            {
+                "status": "no-deadline-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 2,
+                "totalInstruments": 22,
+                "visitLabel": "Clinical_Assessment",
+                "cohort": "SCI"
+            },
+            {
+                "status": "complete-data-entry",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 3,
+                "totalInstruments": 22,
+                "visitLabel": "Neuropsych_Assessment",
+                "cohort": "AD"
+            }
         ]
     },
     {
-        "pscid": "PSCID0001",
+        "pscid": "PKD0001",
         "visits": [
-            "cancelled-data",
-            "deadline-past-visit",
-            "deadline-past-data-entry",
-            "cancelled-data",
-            "no-deadline-visit",
-            "deadline-past-data-entry"
+            {
+                "status": "cancelled-data",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 1,
+                "totalInstruments": 22,
+                "visitLabel": "Initial_Assessment_Screening",
+                "cohort": "MCI"
+            },
+            {
+                "status": "deadline-past-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 2,
+                "totalInstruments": 22,
+                "visitLabel": "Clinical_Assessment",
+                "cohort": "SCI"
+            },
+            {
+                "status": "deadline-past-data-entry",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 3,
+                "totalInstruments": 22,
+                "visitLabel": "Neuropsych_Assessment",
+                "cohort": "AD"
+            }
         ]
     },
     {
-        "pscid": "PSCID0010",
+        "pscid": "JGH0010",
         "visits": [
-            "no-deadline-visit",
-            "deadline-past-visit",
-            "deadline-past-visit",
-            "cancelled-visit",
-            "cancelled-data",
-            "deadline-approaching-visit"
+            {
+                "status": "no-deadline-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 1,
+                "totalInstruments": 22,
+                "visitLabel": "Initial_Assessment_Screening",
+                "cohort": "MCI"
+            },
+            {
+                "status": "deadline-past-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 2,
+                "totalInstruments": 22,
+                "visitLabel": "Clinical_Assessment",
+                "cohort": "SCI"
+
+            },
+            {
+                "status": "deadline-past-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 3,
+                "totalInstruments": 22,
+                "visitLabel": "Neuropsych_Assessment",
+                "cohort": "AD"
+            }
         ]
     },
     {
-        "pscid": "PSCID0011",
+        "pscid": "PKD0011",
         "visits": [
-            "no-deadline-visit",
-            "deadline-approaching-data-entry",
-            "deadline-approaching-visit",
-            "deadline-approaching-visit",
-            "cancelled-data",
-            "complete-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID0100",
-        "visits": [
-            "no-deadline-visit",
-            "cancelled-data",
-            "deadline-approaching-data-entry",
-            "cancelled-visit",
-            "complete-data-entry",
-            "complete-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID0101",
-        "visits": [
-            "cancelled-visit",
-            "deadline-approaching-data-entry",
-            "deadline-approaching-data-entry",
-            "deadline-approaching-visit",
-            "cancelled-data",
-            "deadline-past-visit"
-        ]
-    },
-    {
-        "pscid": "PSCID0110",
-        "visits": [
-            "complete-visit",
-            "deadline-past-visit",
-            "deadline-approaching-data-entry",
-            "complete-visit",
-            "no-deadline-visit",
-            "complete-visit"
-        ]
-    },
-    {
-        "pscid": "PSCID0111",
-        "visits": [
-            "cancelled-data",
-            "deadline-past-visit",
-            "deadline-approaching-visit",
-            "no-deadline-visit",
-            "deadline-past-data-entry",
-            "deadline-past-visit"
-        ]
-    },
-    {
-        "pscid": "PSCID1000",
-        "visits": [
-            "complete-data-entry",
-            "deadline-past-data-entry",
-            "cancelled-data",
-            "deadline-past-data-entry",
-            "cancelled-data",
-            "deadline-approaching-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID1001",
-        "visits": [
-            "cancelled-visit",
-            "cancelled-data",
-            "cancelled-data",
-            "complete-visit",
-            "deadline-approaching-visit",
-            "cancelled-visit"
-        ]
-    },
-    {
-        "pscid": "PSCID1010",
-        "visits": [
-            "cancelled-data",
-            "deadline-approaching-visit",
-            "cancelled-data",
-            "deadline-approaching-data-entry",
-            "deadline-approaching-visit",
-            "deadline-past-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID1011",
-        "visits": [
-            "deadline-approaching-visit",
-            "no-deadline-visit",
-            "no-deadline-visit",
-            "deadline-past-data-entry",
-            "deadline-past-data-entry",
-            "deadline-past-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID1100",
-        "visits": [
-            "deadline-past-visit",
-            "deadline-approaching-visit",
-            "cancelled-visit",
-            "deadline-past-data-entry",
-            "complete-visit",
-            "deadline-past-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID1101",
-        "visits": [
-            "deadline-past-visit",
-            "complete-data-entry",
-            "cancelled-data",
-            "complete-data-entry",
-            "no-deadline-visit",
-            "deadline-approaching-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID1110",
-        "visits": [
-            "deadline-approaching-visit",
-            "cancelled-visit",
-            "complete-data-entry",
-            "no-deadline-visit",
-            "complete-visit",
-            "deadline-past-data-entry"
-        ]
-    },
-    {
-        "pscid": "PSCID1111",
-        "visits": [
-            "complete-visit",
-            "complete-visit",
-            "complete-visit",
-            "no-deadline-visit",
-            "deadline-past-data-entry",
-            "deadline-approaching-data-entry"
+            {
+                "status": "no-deadline-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 1,
+                "totalInstruments": 22,
+                "visitLabel": "Initial_Assessment_Screening",
+                "cohort": "MCI"
+            },
+            {
+                "status": "deadline-approaching-data-entry",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 2,
+                "totalInstruments": 22,
+                "visitLabel": "Clinical_Assessment",
+                "cohort": "SCI"
+            },
+            {
+                "status": "deadline-approaching-visit",
+                "dueDate": randomDate(),
+                "instrumentsCompleted": 3,
+                "totalInstruments": 22,
+                "visitLabel": "Neuropsych_Assessment",
+                "cohort": "AD"
+            }
         ]
     }
 ];
@@ -386,10 +331,7 @@ var dummyData = [
 var visitLabels = [
     "Screening",
     "Clinical",
-    "Neuropsych",
-    "MRI",
-    "Lumbar-Puncture",
-    "Follow-Up",
+    "Neuropsych"
 ];
 
 export default StudyTracker;
