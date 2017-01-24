@@ -60,17 +60,21 @@ function PSCIDCell(props) {
 }
 
 function VisitCell(props) {
-    // will need to include additional data
-    // for each visit
     var visitClass = "circle " + props.visit.status;
+    // calculate diff between days
+    var now = new Date();
+    var dueDate = props.visit.dueDate;
+
+    var daysLeft = Math.floor((dueDate - now) / (1000*60*60*24));
     return (
         <td>
-            <div data-tip='React-tooltip' className={visitClass} />
-            <ReactToolTip place="top" type="dark" effect="solid">
-                <span>Visit Registration: <br/></span>
-                <span>Data Entry: due in x days<br/></span>
-                <span><i>x/y instruments entered</i></span>
-            </ReactToolTip>
+            <div data-tip data-for={props.visit.sessionID} className={visitClass} >
+                <ReactToolTip id={props.visit.sessionID} effect="solid">
+                    <span>Visit Registration: {props.visit.status}<br/></span>
+                    <span>Due in {daysLeft} days<br/></span>
+                    <span><i>{props.visit.instrumentsCompleted}/{props.visit.totalInstruments} instruments complete</i></span>
+                </ReactToolTip>
+            </div>
         </td>
     );
 }
@@ -133,6 +137,7 @@ class StudyTracker extends Component {
             </div>
         );
     }
+
     componentWillMount() {
        // this.getRandomRowData = this.getRowData.bind(this);
        // this.getRandomRowData();
@@ -188,7 +193,8 @@ class StudyTracker extends Component {
 }
 
 function randomDate() {
-    return new Date();
+    var now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 3, now.getDate(), 0,0,0,0);
 }
 
 // TODO
@@ -213,6 +219,7 @@ var dummyData = [
         "pscid": "JGH0000",
         "visits": [
             {
+                "sessionID": '1',
                 "status": "deadline-past-data-entry",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 1,
@@ -221,6 +228,7 @@ var dummyData = [
                 "cohort": "MCI"
             },
             {
+                "sessionID": '2',
                 "status": "no-deadline-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 2,
@@ -229,6 +237,7 @@ var dummyData = [
                 "cohort": "SCI"
             },
             {
+                "sessionID": '3',
                 "status": "complete-data-entry",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 3,
@@ -242,6 +251,7 @@ var dummyData = [
         "pscid": "PKD0001",
         "visits": [
             {
+                "sessionID": '4',
                 "status": "cancelled-data",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 1,
@@ -250,6 +260,7 @@ var dummyData = [
                 "cohort": "MCI"
             },
             {
+                "sessionID": '5',
                 "status": "deadline-past-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 2,
@@ -258,6 +269,7 @@ var dummyData = [
                 "cohort": "SCI"
             },
             {
+                "sessionID": '6',
                 "status": "deadline-past-data-entry",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 3,
@@ -271,6 +283,7 @@ var dummyData = [
         "pscid": "JGH0010",
         "visits": [
             {
+                "sessionID": '7',
                 "status": "no-deadline-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 1,
@@ -279,6 +292,7 @@ var dummyData = [
                 "cohort": "MCI"
             },
             {
+                "sessionID": '8',
                 "status": "deadline-past-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 2,
@@ -288,6 +302,7 @@ var dummyData = [
 
             },
             {
+                "sessionID": '9',
                 "status": "deadline-past-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 3,
@@ -301,6 +316,7 @@ var dummyData = [
         "pscid": "PKD0011",
         "visits": [
             {
+                "sessionID": '10',
                 "status": "no-deadline-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 1,
@@ -309,6 +325,7 @@ var dummyData = [
                 "cohort": "MCI"
             },
             {
+                "sessionID": '11',
                 "status": "deadline-approaching-data-entry",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 2,
@@ -317,7 +334,8 @@ var dummyData = [
                 "cohort": "SCI"
             },
             {
-                "status": "deadline-approaching-visit",
+                "sessionID": '12',
+                "status": "complete-data-entry",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 3,
                 "totalInstruments": 22,
