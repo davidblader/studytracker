@@ -6,8 +6,10 @@ import './study_tracker.css';
 function SiteFilter(props) {
     return (
         <td>
-            <select>
-                <option value="site">Site</option>
+            <select onChange={props.filterSites}>
+                <option value="all">Show All</option>
+                <option value="PKD">Parkwood Institute</option>
+                <option value="JGH">Jewish General Hospital</option>
             </select>
         </td>
     );
@@ -40,7 +42,7 @@ class Filters extends Component {
             <table className="Filters">
                 <tbody>
                     <tr>
-                        <SiteFilter />
+                        <SiteFilter filterSites={this.props.filterSites}/>
                         <TeamFilter />
                         <CohortFilter />
                     </tr>
@@ -110,24 +112,35 @@ class StudyTrackerRow extends Component {
 }
 
 class StudyTracker extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             // Rows should be passed to this class
             // as JSON objects
              rows: dummyData,
-             visitLabels: visitLabels
+             visitLabels: visitLabels,
+             psc: "all"
         };
+
+        this.filterSites = this.filterSites.bind(this);
+    }
+
+    filterSites(event) {
+        console.log(event.target.value);
+        this.setState({psc: event.target.value});
     }
 
     render() {
-        var dataRows = this.state.rows.map((row) =>
-            <StudyTrackerRow key={row.pscid} pscid={row.pscid} visits={row.visits}/>
+        var dataRows = this.state.rows.map(function(row) {
+                if (row.psc === this.state.psc || this.state.psc === "all") {
+                    return <StudyTrackerRow key={row.pscid} pscid={row.pscid} visits={row.visits}/>
+                }
+            }.bind(this)
         );
         return (
             <div className="StudyTracker">
                 <h1>Hello, Study Tracker!</h1>
-                <Filters/>
+                <Filters filterSites={this.filterSites}/>
                 <table>
                     <StudyTrackerHeader visitLabels={this.state.visitLabels}/>
                     <tbody>
@@ -217,6 +230,7 @@ function randomDate() {
 var dummyData = [
     {
         "pscid": "JGH0000",
+        "psc": "JGH",
         "visits": [
             {
                 "sessionID": '1',
@@ -249,6 +263,7 @@ var dummyData = [
     },
     {
         "pscid": "PKD0001",
+        "psc": "PKD",
         "visits": [
             {
                 "sessionID": '4',
@@ -281,6 +296,7 @@ var dummyData = [
     },
     {
         "pscid": "JGH0010",
+        "psc": "JGH",
         "visits": [
             {
                 "sessionID": '7',
@@ -314,6 +330,7 @@ var dummyData = [
     },
     {
         "pscid": "PKD0011",
+        "psc": "PKD",
         "visits": [
             {
                 "sessionID": '10',
@@ -335,7 +352,7 @@ var dummyData = [
             },
             {
                 "sessionID": '12',
-                "status": "complete-data-entry",
+                "status": "complete-data-entry complete-visit",
                 "dueDate": randomDate(),
                 "instrumentsCompleted": 3,
                 "totalInstruments": 22,
